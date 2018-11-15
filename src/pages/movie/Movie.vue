@@ -87,6 +87,7 @@ export default {
             flex: 1;
             text-align: center;
             line-height: 44px;
+            margin: 0 20px;
             &.active{
                 color: #f03d37;
                 border-bottom: 2px solid #f03d37;

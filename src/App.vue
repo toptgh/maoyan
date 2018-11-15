@@ -1,11 +1,11 @@
 <template>
   <div id="app">
-    
-    <router-view/>
-
+    <keep-alive>
+      <router-view/>
+    </keep-alive>
     <tabs v-model="selectIndex">
       <tab-item v-for="(tabItem, index) in tabList" :key="index" 
-        :name="tabItem.name">
+        :name="tabItem.name" :icon="tabItem.iconfont">
       </tab-item> 
     </tabs>
     
@@ -14,31 +14,26 @@
 
 <script>
 export default {
-  data(){
+  data() {
     return {
       selectIndex: 0,
       tabList: [
-        {name: '电影', path: '/movie'},
-        {name: '影院', path: '/cinema'},
-        {name: '我的', path: '/mine'}
+        { name: "电影", path: "/movie", iconfont: "iconfont icon-movie" },
+        { name: "影院", path: "/cinema", iconfont: "iconfont icon-yingyuanA" },
+        { name: "我的", path: "/mine", iconfont: "iconfont icon-home" }
       ]
-    }
+    };
   },
   watch: {
     selectIndex: {
-      handler(newVal){
+      handler(newVal) {
         this.$router.push(this.tabList[newVal].path);
       }
     }
   }
-}
+};
 </script>
 
 
 <style lang="scss">
-
-
-
-
-
 </style>

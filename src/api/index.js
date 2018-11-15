@@ -5,9 +5,17 @@ const PRO_HOST = 'http://m.maoyan.com';
 /*
 正在热映的接口
 参数：token：可选，用户标识
-     movieIds：可选，需要请求的电影id列表，如果没有，请求第一页数据
 */
 const PLAYING_API = '/ajax/movieOnInfoList';
+
+/*
+更多正在热映的接口
+参数：
+    token 可选，用户标识
+    movieIds: 需要请求的电影id列表，如果没有，请求第一页数据
+*/
+const MORE_PLAYING_API = '/ajax/moreComingList';
+
 
 /*
 即将上映的接口
@@ -24,5 +32,6 @@ export default{
     UAT_HOST,
     PRO_HOST,
     PLAYING_API,
+    MORE_PLAYING_API,
     COMING_API
 }

@@ -1,8 +1,10 @@
 <template>
 <div class="page" id="movie">
 
+    <!-- 标题 -->
     <app-header title="猫眼电影"></app-header>
 
+    <!-- 子标题 -->
     <div class="sub-header">
         <span class="city-icon">深圳</span>
         <nav class="nav">
@@ -17,60 +19,35 @@
         </span>
     </div>
 
-    <app-content :style="{top: '88px', bottom: '49px'}">
-        
-        
-        <div v-if="navIndex == 0">
-
-            <li v-for="item in playingList" :key="item.id">
-                {{item.nm}}
-            </li>
-
-        </div>
-
-        
-        <div v-else-if="navIndex == 1">
-            <div v-for="(list, key) in comingMap" :key="key">
-                <p style="background: red;">{{key}}</p>
-                <ul>
-                    <li v-for="item in list" :key="item.id">
-                        {{item.nm}}
-                    </li>
-                </ul>
-            </div>
-        </div>
-
-    </app-content>
+    <!-- 内容 -->
+    <keep-alive>
+        <!-- 正在热映 -->
+        <playing v-if="navIndex == 0"/>
+        <!-- 即将上映 -->
+        <coming v-if="navIndex == 1"/>
+    </keep-alive>
 </div>
 </template>
 
 <script>
-import {getPlayingList, getComingList} from '../../services/movieService'
+import Coming from '../../components/movie/Coming'
+import Playing from '../../components/movie/Playing'
 
 export default {
+    components: {
+        'coming': Coming,
+        'playing': Playing
+    },
     data(){
         return {
             navList: ['正在热映', '即将上映'],
-            navIndex: 0,
-            playingList: [],
-            comingMap: {}
+            navIndex: 0
         }
     },
     methods: {
         changeAction(index){
             this.navIndex = index;
         }
-    },
-    created(){
-        //请求正在热映的电影数据
-        getPlayingList().then(result=>{
-            this.playingList = result;
-        })
-
-        // 请求即将上映的数据
-        getComingList().then(result=>{
-            this.comingMap = result;
-        })
     }
 
 }
@@ -121,4 +98,5 @@ export default {
         margin: 10px auto;
     }
 }
+
 </style>

@@ -1,6 +1,6 @@
 <template>
 <li class="tab" :class="{active: isActive}" @click="tabAction">
-    <span :class="icon">❤</span>
+    <span :class="icon"></span>
     <span>{{name}}</span>
 </li>
 </template>
@@ -42,7 +42,8 @@ export default {
     flex: 1;
 }
 .tab span:first-of-type{
-    font-size: 20px;
+    padding-top: 5px;
+    font-size: 25px;
 }
 .tab span:last-of-type{
     font-size: 12px;

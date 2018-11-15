@@ -14,12 +14,16 @@ export function getPlayingList(){
         .then(({data, status})=>{
             if(status == 200){
                 //请求成功
+                console.log(data)
                 let newData = data.movieList.map(item=>{
                     let {id, nm, img, version, sc, star, showInfo, wish, globalReleased} = item;
+                    img = img.replace(/w.h/, '64.90');
                     return {id, nm, img, version, sc, star, showInfo, wish, globalReleased};
                 })
-                console.log(newData)
-                resolve(newData);  
+                resolve({
+                    data: newData,
+                    ids: data.movieIds
+                });  
             }else{
                 //请求失败
             }
@@ -30,6 +34,36 @@ export function getPlayingList(){
     })
 }
 
+//请求更多正在热映的电影数据
+export function getMorePlayingList(ids){
+    return new Promise((resolve, reject)=>{
+        http({
+            url: API.MORE_PLAYING_API,
+            method: 'GET',
+            data: {
+                token: '',
+                movieIds: ids
+            }
+        })
+        .then(({data, status})=>{
+            if(status == 200){
+                console.log(data);
+                //请求成功
+                let newData = data.coming.map(item=>{
+                    let {id, nm, img, version, sc, star, showInfo, wish, globalReleased} = item;
+                    img = img.replace(/w.h/, '64.90');
+                    return {id, nm, img, version, sc, star, showInfo, wish, globalReleased};
+                })
+                resolve(newData);  
+            }else{
+                //请求失败
+            }
+        })
+        .catch(()=>{
+            //请求失败
+        });
+    })
+}
 
 // 请求即将上映的数据
 export function getComingList(){

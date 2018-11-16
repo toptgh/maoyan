@@ -3,6 +3,7 @@ import Tabs from './tabs/Tabs'
 import TabItem from './tabs/TabItem'
 import Header from './header/Header'
 import Content from './content/Content'
+import Scroll from './scroll/Scroll'
 
 //输出公共组件（原理：这里向外输出一个对象,main.js引入并use调用了install方法）
 export default {
@@ -16,6 +17,8 @@ export default {
 
         Vue.component(Header.name, Header);
         Vue.component(Content.name, Content);
+
+        Vue.component(Scroll.name, Scroll);
 
     }
 }

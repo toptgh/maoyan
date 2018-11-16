@@ -30,74 +30,78 @@
 </template>
 
 <script>
-import Coming from '../../components/movie/Coming'
-import Playing from '../../components/movie/Playing'
+import Coming from "../../components/movie/Coming";
+import Playing from "../../components/movie/Playing";
 
 export default {
-    components: {
-        'coming': Coming,
-        'playing': Playing
-    },
-    data(){
-        return {
-            navList: ['正在热映', '即将上映'],
-            navIndex: 0
-        }
-    },
-    methods: {
-        changeAction(index){
-            this.navIndex = index;
-        }
+  components: {
+    coming: Coming,
+    playing: Playing
+  },
+  data() {
+    return {
+      navList: ["正在热映", "即将上映"],
+      navIndex: 0
+    };
+  },
+  methods: {
+    changeAction(index) {
+      this.navIndex = index;
     }
-
-}
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-.sub-header{
-    width: 100%;
-    height: 44px;
-    position: absolute;
-    top: 44px;
-    left: 0;
-    border-bottom: 1px solid #e6e6e6;
+.sub-header {
+  width: 100%;
+  height: 44px;
+  position: absolute;
+  top: 44px;
+  left: 0;
+  border-bottom: 1px solid #e6e6e6;
+  display: flex;
+  span {
+    flex: 1;
+  }
+  .city-icon {
+    text-align: center;
+    line-height: 44px;
+    margin-left: 10px;
+    font-size: 14px;
+    color: #666;
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 0;
+      height: 0;
+      border: 4px solid transparent;
+      border-top: 4px solid #999;
+      transform: translate(4px, 1px);
+    }
+  }
+  .nav {
+    width: 70%;
     display: flex;
-    span{
-        flex: 1;
+    color: #666;
+    font-size: 14px;
+    li {
+      flex: 1;
+      text-align: center;
+      line-height: 44px;
+      margin: 0 20px;
+      font-weight: 700;
+      font-size: 15px;
+      &.active {
+        color: #f03d37;
+        border-bottom: 2px solid #f03d37;
+      }
     }
-    .city-icon{
-        text-align: center;
-        line-height: 44px;
-        &::after{
-            content: '';
-            display: inline-block;
-            width: 0;
-            height: 0;
-            border: 6px solid transparent;
-            border-top: 6px solid #666;
-            transform: translateY(3px);
-        }
-    }
-    .nav{
-        width: 70%;
-        display: flex;
-        color: #666;
-        font-size: 14px;
-        li{
-            flex: 1;
-            text-align: center;
-            line-height: 44px;
-            margin: 0 20px;
-            &.active{
-                color: #f03d37;
-                border-bottom: 2px solid #f03d37;
-            }
-        }
-    }
-    .search-icon img{
-        width: 24px;
-        margin: 10px auto;
-    }
+  }
+  .search-icon img {
+    width: 24px;
+    margin: 10px auto;
+  }
 }
 
 </style>

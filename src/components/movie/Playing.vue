@@ -5,21 +5,13 @@
     <movieList :playingList='playingList'>
 
     </movieList>
-     <!-- <li class="playing-item" v-for="item in playingList" :key="item.id">
-        <div class="item-img">
-            <img :src="item.img"/>
-        </div>
-        <div class="item-content">
-            <h3>{{item.nm}}</h3>
-        </div>
-    </li> -->
 </ul>
 </app-content>
 </template>
 
 <script>
 import {getPlayingList,getMorePlayingList} from "../../services/movieService"
-import movieList from "./movieList.vue"
+import movieList from "./PlayingList.vue"
 export default {
     components: {
       'movieList': movieList
@@ -57,6 +49,7 @@ export default {
   created() {
     //初始化请求正在热映的电影数据
     getPlayingList().then(({ data, ids }) => {
+
       this.playingList = data;
       this.playingIDS = ids;
     });
@@ -66,7 +59,7 @@ export default {
 
 <style lang="scss" >
 .playing {
-  padding: 0 10px;
+  padding: 12px 15px;
   
 }
 </style>

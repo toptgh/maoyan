@@ -16,6 +16,15 @@ const PLAYING_API = '/ajax/movieOnInfoList';
 */
 const MORE_PLAYING_API = '/ajax/moreComingList';
 
+/**
+ 最受期待电影数据接口
+ 参数：ci 城市id
+    limit 数据长度
+    offset 第几个数据
+    token 用户标识
+ */
+const MOST_EXPECTED_API='/ajax/mostExpected';
+
 
 /*
 即将上映的接口
@@ -33,5 +42,6 @@ export default{
     PRO_HOST,
     PLAYING_API,
     MORE_PLAYING_API,
-    COMING_API
+    COMING_API,
+    MOST_EXPECTED_API
 }

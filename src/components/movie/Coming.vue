@@ -1,9 +1,9 @@
 <template>
-<app-content :style="{top: '88px', bottom: '49px'}"  >
+<app-content :style="{top: '88px', bottom: '49px'}" @loadmore="getMoreData" :canLoadMore="canLoadMore" >
 
     <div class="expected">
         <p class="title">近期最受期待</p>
-        <scroll class="expected-list">
+        <scroll class="expected-list" @loadmoreExp='getMoreExpDate' :canLoadMoreExp="canLoadMoreExp">
             <li class="expected-item" v-for='item in expectedList' :key='item.id'>
                 <div class="poster default-img-bg">
                     <img :src="item.img | replaceWH(170,230)">
@@ -34,6 +34,7 @@
 import {
   getComingList,
   getMostExpectedDate,
+  getMoreExpectedDate,
   getMoreComingList
 } from "../../services/movieService";
 import comingList from "./ComingList";
@@ -43,24 +44,72 @@ export default {
   },
   data() {
     return {
-      comingMap: {},
       expectedList: [],
+      expectedIds: [],
+      comingMap: {},
+      comingIds: [],
+      comingList: [],
+      canLoadMoreExp: true,
+      canLoadMore: true
     };
   },
   methods: {
-  
+  //即将上映
+    getMoreData() {
+      let ids = [...this.comingIds];
+      //切割数组
+      ids = ids.splice(this.comingList.length, 10);
+      let movieIds = ids.join(",");
+      this.canLoadMore = false;
+      getMoreComingList(movieIds).then(result => {
+        //原来的数据和新增过后的数据合并
+        let newData = [...this.comingList, ...result];
+        //改为新数据
+        this.comingList = newData;
+        let dataMap = {};
+        newData.map(item => {
+          if (!dataMap[item.comingTitle]) {
+            dataMap[item.comingTitle] = [];
+          }
+          dataMap[item.comingTitle].push(item);
+        });
+        this.comingMap = dataMap;
+        if (this.comingList.length >= this.comingIds.length) {
+          this.canLoadMore = false;
+        } else {
+          this.canLoadMore = true;
+        }
+      });
+    },
+
+    //最受期待
+    getMoreExpDate() {
+      //获取下页数据
+      this.expectedIds += 10;
+      getMoreExpectedDate(this.expectedIds).then(result => {
+        this.expectedList=[...this.expectedList,...result];
+        if(this.expectedList.length>=this.expectedIds.length){
+          //加载完了
+          this.canLoadMoreExp=false;
+        }else{
+          //还可加载更多
+          this.canLoadMoreExp=true;
+        }
+      });
+    }
   },
   created() {
     // 请求即将上映的数据
-    getComingList().then(result => {
-      console.log(result)
-      this.comingMap = result;
+    getComingList().then(({ data, ids, List }) => {
+      this.comingMap = data;
+      this.comingIds = ids;
+      this.comingList = List;
     });
 
-
     // 请求最受欢迎的电影数据
-    getMostExpectedDate().then(result => {
-      this.expectedList = result;
+    getMostExpectedDate().then(({ data, ids }) => {
+      this.expectedList = data;
+      this.expectedIds = ids;
     });
   }
 };

@@ -2,7 +2,9 @@
 <div class="page" id="movie">
 
     <!-- 标题 -->
-    <app-header title="猫眼电影"></app-header>
+    <app-header title="猫眼电影">
+      <span class="backhome" @click="backAction()" >&lt;</span>
+    </app-header>
 
     <!-- 子标题 -->
     <div class="sub-header">
@@ -103,5 +105,4 @@ export default {
     margin: 10px auto;
   }
 }
-
 </style>

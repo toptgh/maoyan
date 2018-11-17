@@ -1,12 +1,8 @@
 <template>
 <header class="header">
-    <!-- <span class="header-btn header-btn-left">
-        <slot name="left"/>
-    </span> -->
+    
     <h1 class="title">{{title}}</h1>
-    <!-- <span class="header-btn header-btn-right">
-        <slot name="right"/>
-    </span> -->
+    <slot name='left'/>
 </header>
 </template>
 
@@ -40,21 +36,5 @@ export default {
     font-size: 16px;
     color: #fff;
 }
-.header-btn{
-    position: absolute;
-    top: 0;
-    line-height: 44px;
-    padding: 0 10px;
-    color: #fff;
-    font-size: 12px;
-}
-.header-btn *{
-    color: #fff;
-}
-.header-btn-left{
-    left: 10px;
-}
-.header-btn-right{
-    right: 10px;
-}
+
 </style>

@@ -86,6 +86,7 @@ export default {
     getMoreExpDate() {
       //获取下页数据
       this.expectedIds += 10;
+      this.canLoadMoreExp=false;
       getMoreExpectedDate(this.expectedIds).then(result => {
         this.expectedList=[...this.expectedList,...result];
         if(this.expectedList.length>=this.expectedIds.length){

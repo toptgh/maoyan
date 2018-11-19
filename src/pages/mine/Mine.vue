@@ -44,7 +44,7 @@ export default {
   },
   methods: {
     backAction() {
-      this.$router.push({ path: "/" });
+      this.$router.back();
     },
     changeAction(index) {
       this.navIndex = index;
@@ -53,7 +53,7 @@ export default {
 };
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 .backhome {
   position: absolute;
   top: -2px;

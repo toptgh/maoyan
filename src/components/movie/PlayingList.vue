@@ -1,6 +1,6 @@
 <template>
 <div>
-    <li class="playing-item" v-for="(item,index) in playingList" :key="index">
+    <li class="playing-item"  @click='listAction(item)' v-for="(item,index) in playingList" :key="index">
         <div class="item-img">
             <img :src="item.img"/>
         </div>
@@ -47,6 +47,11 @@ export default {
   },
   data() {
     return {};
+  },
+  methods:{
+    listAction(item){
+      this.$router.push({name:'Detail',params:{id:item.id}});
+    }
   }
 };
 </script>

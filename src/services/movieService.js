@@ -307,3 +307,56 @@ export function getMoreComingList(ids) {
             })
     })
 }
+
+//请求影院的数据
+export function getCinemaList() {
+    return new Promise((resolve, reject) => {
+        http({
+            url: API.CITY_CINEMA_API,
+            method: 'GET',
+            data: {
+                offset:0,
+                limit:20,
+                cityId:30
+            }
+        }).then(({data,status})=>{
+            if(status==200){
+                console.log('影院:');
+                console.log(data);
+                resolve({
+                    data:data.cinemas,
+                    ids:data.paging.offset
+                });
+            }else{
+
+            }
+        }).catch(()=>{
+            
+        })
+    })
+}
+
+//请求更多影院数据
+export function getMoreCinemaList(ids){
+    return new Promise((resolve,reject)=>{
+        http({
+            url: API.CITY_CINEMA_API,
+            method: 'GET',
+            data: {
+                offset:ids,
+                limit:20,
+                cityId:30
+            }
+        }).then(({data,status})=>{
+            if(status==200){
+                console.log('更多影院:');
+                console.log(data);
+                resolve(data.cinemas);
+            }else{
+
+            }
+        }).catch(()=>{
+            
+        })
+    })
+}

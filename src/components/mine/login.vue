@@ -8,18 +8,19 @@
             <input type="password" placeholder="请输入你的密码">
        </label>
 
-       <div class="contentbox">
-       <div class="btnbox">
-        <a class="btn">登录</a>
-       </div>
-       <div class="registerbox">
-           <a class="register">立即注册</a>
-           <a class="possword">找回密码</a>
-       </div>
+      <div class="contentbox">
+        <div class="btnbox">
+          <a class="btn">登录</a>
+        </div>
+        <div class="registerbox">
+            <a class="register">立即注册</a>
+            <a class="possword">找回密码</a>
+        </div>
         <div class="copybox">
             <span class="copyright">© 猫眼电影 客服电话：<a href="tel:4006705335">400-670-5335</a></span>
         </div>
-    </div>
+        
+      </div>
    </app-content>
 </template>
 
@@ -39,6 +40,7 @@ label {
     line-height: 30px;
     border: 0;
     outline: none;
+    padding-left: 5px;
     &:focus {
       background: rgb(230, 230, 230);
       border-radius: 5px;
@@ -60,8 +62,7 @@ label {
   }
 
   .registerbox {
-    display: block;
-    margin-top: 10px;
+    margin: 10px 0 10px 0;
     font-size: 14px;
     height: 20px;
     .register {
@@ -76,9 +77,9 @@ label {
 
   .copybox {
     font-size: 14px;
-    padding:10px 50px;
-    a{
-        color: #df2d2d;
+    text-align: center;
+    a {
+      color: #df2d2d;
     }
   }
 }

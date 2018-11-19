@@ -36,6 +36,22 @@ const MOST_EXPECTED_API='/ajax/mostExpected';
 const COMING_API = '/ajax/comingList';
 
 
+/**
+ * 城市列表数据
+ * 
+ */
+
+ const CITY_LIST_API='/dianying/cities.json'
+
+
+/**
+ * 影院列表数据
+ * 
+ */
+
+ const CITY_CINEMA_API='/ajax/cinemaList'
+
+
 export default{
     SAT_HOST,
     UAT_HOST,
@@ -43,5 +59,6 @@ export default{
     PLAYING_API,
     MORE_PLAYING_API,
     COMING_API,
-    MOST_EXPECTED_API
+    MOST_EXPECTED_API,
+    CITY_CINEMA_API
 }

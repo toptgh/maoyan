@@ -1,33 +1,38 @@
 <template>
-<div class="page" id="movie">
+<div>
+  <div class="page" id="movie">
 
-    <!-- 标题 -->
-    <app-header title="猫眼电影">
-      <span class="backhome" @click="backAction()" >&lt;</span>
-    </app-header>
+      <!-- 标题 -->
+      <app-header title="猫眼电影">
+        <span class="backhome" @click="backAction()" >&lt;</span>
+      </app-header>
 
-    <!-- 子标题 -->
-    <div class="sub-header">
-        <span class="city-icon">深圳</span>
-        <nav class="nav">
-            <li v-for="(item, index) in navList" :key="index" 
-                @click="changeAction(index)"
-                :class="{active: index == navIndex}">
-                {{item}}
-            </li>
-        </nav>
-        <span class="search-icon">
-            <img src="../../assets/search.png"/>
-        </span>
-    </div>
+      <!-- 子标题 -->
+      <div class="sub-header">
+          <span class="city-icon">深圳</span>
+          <nav class="nav">
+              <li v-for="(item, index) in navList" :key="index" 
+                  @click="changeAction(index)"
+                  :class="{active: index == navIndex}">
+                  {{item}}
+              </li>
+          </nav>
+          <span class="search-icon" @click='searchAction()'>
+              <img src="../../assets/search.png"/>
+          </span>
+      </div>
 
-    <!-- 内容 -->
-    <keep-alive>
-        <!-- 正在热映 -->
-        <playing v-if="navIndex == 0"/>
-        <!-- 即将上映 -->
-        <coming v-if="navIndex == 1"/>
-    </keep-alive>
+      <!-- 内容 -->
+      <keep-alive>
+          <!-- 正在热映 -->
+          <playing v-if="navIndex == 0"/>
+          <!-- 即将上映 -->
+          <coming v-if="navIndex == 1"/>
+      </keep-alive>
+  </div>
+
+  <router-view></router-view>
+
 </div>
 </template>
 
@@ -49,6 +54,9 @@ export default {
   methods: {
     changeAction(index) {
       this.navIndex = index;
+    },
+    searchAction(){
+      this.$router.push({name:'MovieSearch'})
     }
   }
 };

@@ -30,7 +30,17 @@ export default {
         this.$router.push(this.tabList[newVal].path);
       }
     }
-  }
+  },
+   created() {
+      let path = this.$route.path;
+      let index = this.tabList.findIndex((item, index)=>{
+        return item.path == path;
+      })
+      if(index >= 0){
+        this.selectIndex = index;
+      }
+    },
+
 };
 </script>
 

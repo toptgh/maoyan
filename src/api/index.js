@@ -51,7 +51,12 @@ const COMING_API = '/ajax/comingList';
 
  const CITY_CINEMA_API='/ajax/cinemaList'
 
+/**
+ * 详情页数据
+ */
 
+ const DETAIL_API='/ajax/detailmovie'
+ 
 export default{
     SAT_HOST,
     UAT_HOST,
@@ -60,5 +65,6 @@ export default{
     MORE_PLAYING_API,
     COMING_API,
     MOST_EXPECTED_API,
-    CITY_CINEMA_API
+    CITY_CINEMA_API,
+    DETAIL_API
 }

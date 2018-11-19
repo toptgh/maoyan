@@ -360,3 +360,24 @@ export function getMoreCinemaList(ids){
         })
     })
 }
+
+//请求电影详情页数据
+export function getDetailList(ids){
+    return  new Promise((resolve,reject)=>{
+        http({
+            url:API.DETAIL_API,
+            method:'GET',
+            data:{
+                movieId:ids
+            }
+        }).then(({data,status})=>{
+            if(status==200){
+                resolve({data:data.detailMovie})
+            }else{
+
+            }
+        }).catch(()=>{
+
+        })
+    })
+}

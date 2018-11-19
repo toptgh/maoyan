@@ -10,3 +10,7 @@ Vue.filter('replaceTime',(str,num)=>{
     return value;
 })
 
+Vue.filter('replaceNum',(num)=>{
+    return num>10000?(num-num%1000)/10000+'万':num;
+})
+

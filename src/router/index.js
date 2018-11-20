@@ -12,8 +12,7 @@ export default new Router({
   routes: [{
       path: '/movie',
       component: Movie,
-      children: [
-        {
+      children: [{
           name: 'MovieSearch',
           path: 'search',
           component: Search,
@@ -42,7 +41,19 @@ export default new Router({
     },
     {
       path: '/mine',
-      component: Mine
+      component: Mine,
+      beforeEnter: (to, from, next) => {
+        let token = localStorage.getItem('token');
+        if (token) {
+          next();
+        } else {
+          next('/login');
+        }
+      }
+    },
+    {
+      path: '/login',
+      component: () => import('../components/mine/login')
     },
     {
       path: '**',

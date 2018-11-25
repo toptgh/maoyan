@@ -25,6 +25,7 @@ export default {
     },
     methods:{
         leaveAction(){
+            localStorage.removeItem('token');
             this.$router.push("/login");
         }
     }

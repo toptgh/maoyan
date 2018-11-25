@@ -1,20 +1,18 @@
 <template>
-<transition enter-active-class="slideInRight" leave-active-class="slideOutRight">
-    <app-content class="box" >
+    <div class="box" >
         <app-header :title="item.nm" line-ellipsis>
                 <span class="backhome" @click="backAction()" slot="left">&lt;</span>
         </app-header>
         
         <div class="headerBox">
           <div class="movie-filter"></div>
-          <div class="poster-bg" :style="{backgroundImage:'url('+item.albumImg+')'}"></div>
+          <div class="poster-bg" :style="{backgroundImage:'url('+img+')'}"></div>
           <div class="detailBox">
             <div class="poster">
-               <!-- <img :src="item.img|replaceWH(110,150)"/> -->
-            <img :src="item.albumImg" alt="">
+               <img :src="img"/>
             </div>
             <div class="rightBox">
-              <span class="name line-ellipsis">{{item.nm}}</span>
+              <div class="name line-ellipsis">{{item.nm}}</div>
               <div class="en-name line-ellipsis">{{item.enm}}</div>
               <div class="score line-ellipsis">{{item.sc}}
                 <span class="snum">({{item.snum|replaceNum()}}人评)</span>
@@ -36,31 +34,106 @@
           <div class="arrow-g">
             <img src="../../assets/right.png" alt="">
           </div>
+          <div class="showDays">
+            <ul class="timeline">
+              <li v-for="(day,index) in showDays" @click="liColor(index)" :key="index" class="showDay" :class="{chosen:select==index}" >  
+                {{day.date}}
+              </li>
+            </ul>
+          </div>
+
+        <div class="listbox">
+            <span class="city-icon">全城</span>
+            <span class="city-icon list">品牌</span>
+            <span class="city-icon list">特色</span>
         </div>
+        </div>
+
+        <app-content class="listbox" :style="{top: '320px'} " @loadmore="getMoreData" :canLoadMore="canLoadMore">
+        <ul class="cinema">
+            <!-- 影院列表 -->
+            <cinemaList :cinemaList='cinemaList'>
+              
+            </cinemaList>
+        </ul>
     </app-content>
-</transition>
+
+    </div>
 </template>
 
 <script>
-import { getDetailList } from "../../services/movieService.js";
+import {
+  getDetailList,
+  getDateList,
+  getMoreCinemaList
+} from "../../services/movieService.js";
 import "../../utils/filter";
+import cinemaList from "../../components/cinema/cinemaList";
+import { mapState } from "vuex";
 export default {
+  components: {
+    cinemaList: cinemaList
+  },
   data() {
     return {
       id: this.$route.params.id,
-      item: {}
+      item: {},
+      img: "",
+      select: 0,
+      move: -1,
+      cinemaList: [],
+      showDays: [],
+      canLoadMore: true,
+      cinemaIDS: 0
     };
   },
+  computed: {
+    ...mapState(["cityID"])
+  },
+  watch: {
+    cityID() {
+      this.initDate();
+    }
+  },
   methods: {
+    initDate() {
+      getDateList(this.id,this.cityID).then(({ cinemas, showDays }) => {
+        console.log(cinemas);
+        console.log(showDays);
+        this.cinemaList = cinemas;
+        this.showDays = showDays;
+      });
+    },
     backAction() {
       this.$router.back();
+    },
+    liColor(index) {
+      this.select = index;
+    },
+    getMoreData() {
+      //获取下页数据
+      this.cinemaIDS += 20;
+      this.canLoadMore = false;
+      getMoreCinemaList(this.cinemaIDS).then(result => {
+        this.cinemaList = [...this.cinemaList, ...result];
+        if (this.cinemaList.length >= this.cinemaIDS.length) {
+          //加载完了
+          this.canLoadMore = false;
+        } else {
+          //还可加载更多
+          this.canLoadMore = true;
+        }
+      });
     }
   },
   created() {
     getDetailList(this.id).then(({ data }) => {
       this.item = data;
-      console.log(this.item);
+      // console.log(this.item);
+      this.img = this.item.img.replace(/w.h/, "110.150");
     });
+
+    this.initDate();
   }
 };
 </script>
@@ -77,6 +150,8 @@ export default {
   top: 0;
   background: #fff;
   z-index: 9;
+  width: 100%;
+  height: 100%;
   .backhome {
     position: absolute;
     top: -2px;
@@ -121,16 +196,11 @@ export default {
         }
       }
       .rightBox {
-        overflow-x: hidden;
+        overflow: hidden;
         margin-left: 12px;
         line-height: 1;
         color: #fff;
         flex: 1;
-        .name {
-          font-size: 20px;
-          margin-top: 2px;
-          font-weight: 700;
-        }
         .en-name,
         .snum,
         .type,
@@ -140,6 +210,12 @@ export default {
           font-size: 12px;
           color: #fff;
           opacity: 0.8;
+        }
+        .name {
+          font-size: 20px;
+          margin-top: 2px;
+          font-weight: 700;
+          overflow: hidden;
         }
         .score {
           font-size: 18px;
@@ -189,6 +265,69 @@ export default {
       -webkit-transform: translateY(-50%);
       transform: translateY(-50%);
     }
+    .showDays {
+      width: 100%;
+      background-color: #fff;
+      overflow-x: scroll;
+      height: 45px;
+      color: #666;
+      .timeline {
+        white-space: nowrap;
+        overflow-x: scroll;
+        height: 45px;
+      }
+      .showDay {
+        position: relative;
+        display: inline-block;
+        width: 115px;
+        line-height: 43px;
+        margin-left: 4.5px;
+        font-size: 14px;
+        text-align: center;
+        list-style: none;
+        &.chosen {
+          border-bottom: 2px solid #f03d37;
+          color: #f03d37;
+        }
+      }
+    }
+    .listbox {
+      width: 100%;
+      height: 44px;
+      border-bottom: 1px solid #e6e6e6;
+      display: flex;
+      background: #fff;
+      span {
+        flex: 1;
+      }
+      .city-icon {
+        text-align: center;
+        line-height: 44px;
+        font-size: 14px;
+        color: #666;
+        &::after {
+          content: "";
+          display: inline-block;
+          width: 0;
+          height: 0;
+          border: 4px solid transparent;
+          border-top: 4px solid #999;
+          transform: translate(4px, 1px);
+        }
+      }
+      .list {
+        &:before {
+          content: "";
+          display: inline-block;
+          height: 20px;
+          border-left: 1px solid #e8e8e8;
+          transform: translate(-44px, 6px);
+        }
+      }
+    }
+  }
+  .cinema {
+    padding: 12px 15px;
   }
 }
 </style>

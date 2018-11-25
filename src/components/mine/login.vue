@@ -66,7 +66,7 @@ export default {
   },
   methods: {
     backAction() {
-      this.$router.push("/");
+      this.$router.push("/movie");
     },
     changeAction(index) {
       this.user = "";
@@ -74,31 +74,31 @@ export default {
       this.navIndex = index;
     },
     loginAction(loginName) {
+      this.user = this.$refs.user.value;
+      this.psd = this.$refs.psd.value;
       if (loginName == "注册") {
-        this.user = this.$refs.user.value;
-        this.psd = this.$refs.psd.value;
         if (this.user == "" || this.psd == "") {
           alert("不能为空");
+        } else if (localStorage.getItem("user") == this.user) {
+          alert("账号已注册");
         } else {
-          alert("注册成功");
-          localStorage.setItem("token", this.user);
           localStorage.setItem("user", this.user);
           localStorage.setItem("psd", this.psd);
-          this.loginName = "登录";
-          this.registerName = "立即注册";
+          alert('注册成功')
         }
       }
       if (loginName == "登录") {
-        let token = localStorage.getItem("token");
         let user = localStorage.getItem("user");
         let psd = localStorage.getItem("psd");
-        if (this.$refs.user.value == user && this.$refs.psd.value == psd) {
+        if (this.user == user && this.psd == psd) {
+          localStorage.setItem("token", this.user);
           this.$router.push("/mine");
-        }
-        else if (this.$refs.user.value == "" || this.$refs.psd.value == "") {
+        } else if (this.user == "" || this.psd == "") {
           alert("不能为空");
-        }
-        else if (this.$refs.user.value != user && this.$refs.psd.value != psd) {
+        } else if (
+          this.value != user &&
+          this.value != psd
+        ) {
           alert("用户名或密码错误");
         }
       }
@@ -107,6 +107,8 @@ export default {
       if (name == "立即注册") {
         this.loginName = "注册";
         this.registerName = "立即登录";
+        this.$refs.user.value = "";
+        this.$refs.psd.value = "";
       }
       if (name == "立即登录") {
         this.loginName = "登录";

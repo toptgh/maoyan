@@ -1,5 +1,5 @@
 <template>
-<app-content :style="{top: '88px', bottom: '49px'}" @loadmore="getMoreData" :canLoadMore="canLoadMore">
+<app-content :style="{top: '88px', bottom: '0'}" @loadmore="getMoreData" :canLoadMore="canLoadMore">
 <ul class="playing">
     <!-- 电影列表 -->
     <movieList :playingList='playingList'>

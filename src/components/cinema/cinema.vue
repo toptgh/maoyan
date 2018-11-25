@@ -13,6 +13,7 @@
 <script>
 import { getCinemaList, getMoreCinemaList } from "../../services/movieService";
 import cinemaList from "./cinemaList.vue";
+import { mapState } from "vuex";
 export default {
   components: {
     cinemaList: cinemaList
@@ -24,12 +25,27 @@ export default {
       canLoadMore: true
     };
   },
+  computed: {
+    ...mapState(["cityID"])
+  },
+  watch: {
+    cityID() {
+      this.initDate();
+    }
+  },
   methods: {
+    initDate() {
+      getCinemaList(this.cityID).then(({ data, ids }) => {
+        console.log(data);
+        this.cinemaList = data;
+        this.cinemaIDS = ids;
+      });
+    },
     getMoreData() {
       //获取下页数据
       this.cinemaIDS += 10;
       this.canLoadMore = false;
-      getMoreCinemaList(this.cinemaIDS).then(result => {
+      getMoreCinemaList(this.cinemaIDS,this.cityID).then(result => {
         this.cinemaList = [...this.cinemaList, ...result];
         if (this.cinemaList.length >= this.cinemaIDS.length) {
           //加载完了
@@ -42,11 +58,7 @@ export default {
     }
   },
   created() {
-    getCinemaList().then(({ data, ids }) => {
-      console.log(data)
-      this.cinemaList = data;
-      this.cinemaIDS = ids;
-    });
+    this.initDate();
   }
 };
 </script>

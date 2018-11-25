@@ -32,7 +32,7 @@ export default {
     },
     mounted(){
         //选中第0个
-        this.$slots.default[0].componentInstance.isActive = true;
+        this.$slots.default[this.value].componentInstance.isActive = true;
     }
 }
 </script>

@@ -6,7 +6,7 @@
         </app-header>
 
         <div class="sub-header">
-            <span class="city-icon">深圳</span>
+            <span class="city-icon" @click="gocitylist()" >{{city}}</span>
             <label for="">
                 <input class="search-icon" @click='searchAction()' placeholder="搜影院">
             </label>
@@ -29,13 +29,20 @@
 
 <script>
 import cinema from "../../components/cinema/cinema";
+import { mapState } from "vuex";
 export default {
   components: {
-      cinema:cinema
+    cinema: cinema
+  },
+  computed: {
+    ...mapState(["city"])
   },
   methods: {
     searchAction() {
       this.$router.push({ name: "cinemaSearch" });
+    },
+    gocitylist() {
+      this.$router.push("/movie/city-list");
     }
   }
 };

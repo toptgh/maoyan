@@ -9,7 +9,7 @@
 
       <!-- 子标题 -->
       <div class="sub-header">
-          <span class="city-icon">深圳</span>
+          <span @click="gocitylist()" class="city-icon">{{city}}</span>
           <nav class="nav">
               <li v-for="(item, index) in navList" :key="index" 
                   @click="changeAction(index)"
@@ -39,7 +39,7 @@
 <script>
 import Coming from "../../components/movie/Coming";
 import Playing from "../../components/movie/Playing";
-
+import {mapState} from 'vuex'
 export default {
   components: {
     coming: Coming,
@@ -51,12 +51,18 @@ export default {
       navIndex: 0
     };
   },
+  computed:{
+    ...mapState(['city'])
+  },
   methods: {
     changeAction(index) {
       this.navIndex = index;
     },
     searchAction(){
       this.$router.push({name:'MovieSearch'})
+    },
+    gocitylist(){
+      this.$router.push('/movie/city-list')
     }
   }
 };

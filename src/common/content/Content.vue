@@ -21,6 +21,9 @@ export default {
     reset() {
       this.contentScroll.scrollTo(0, 0);
       this.contentScroll.refresh();
+    },
+    scrollTo(y){
+      this.contentScroll.scrollTo(0,y*(-1),200)
     }
   },
   mounted() {

@@ -5,3 +5,14 @@ html, body, #app{
 .slideInLeft, .slideOutLeft, .slideInRight, .slideOutRight{
     animation-duration: 200ms;
 }
+.page{
+    width:100%;
+    position:absolute;
+    top:0;
+    left:0;
+    bottom:49px;
+}
+.page.subpage{
+    bottom:0;
+    z-index: 5;
+}

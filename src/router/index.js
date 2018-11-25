@@ -7,6 +7,8 @@ import Cinema from '../pages/cinema/Cinema'
 import Mine from '../pages/mine/Mine'
 import Search from '../pages/common/Search'
 import Detail from '../pages/common/Detail'
+import CityList from '../pages/common/CityList'
+
 
 export default new Router({
   routes: [{
@@ -24,6 +26,10 @@ export default new Router({
           name: 'Detail',
           path: 'Detail/:id',
           component: Detail,
+        },
+        {
+          path: 'city-list',
+          component: CityList
         }
       ]
     },
@@ -37,7 +43,12 @@ export default new Router({
         props: {
           type: ['cinema']
         }
-      }]
+      },
+      {
+        path:'city-list',
+        component:CityList
+      }
+    ]
     },
     {
       path: '/mine',

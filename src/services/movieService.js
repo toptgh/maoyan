@@ -113,13 +113,13 @@ export function getMorePlayingList(ids) {
 }
 
 //请求最受期待的电影数据
-export function getMostExpectedDate() {
+export function getMostExpectedDate(ci) {
     return new Promise((resolve, reject) => {
         http({
                 url: API.MOST_EXPECTED_API,
                 method: 'GET',
                 data: {
-                    ci: 30,
+                    ci,
                     limit: 10,
                     offset: 0,
                     token: ''
@@ -148,13 +148,13 @@ export function getMostExpectedDate() {
 }
 
 //请求更多最受期待的电影数据
-export function getMoreExpectedDate(ids) {
+export function getMoreExpectedDate(ids,ci) {
     return new Promise((resolve, reject) => {
         http({
                 url: API.MOST_EXPECTED_API,
                 method: 'GET',
                 data: {
-                    ci: 30,
+                    ci,
                     limit: 10,
                     offset: ids,
                     token: ''
@@ -178,13 +178,13 @@ export function getMoreExpectedDate(ids) {
 }
 
 // 请求即将上映的数据
-export function getComingList() {
+export function getComingList(ci) {
     return new Promise((resolve, reject) => {
         http({
                 url: API.COMING_API,
                 method: 'GET',
                 data: {
-                    ci: 30,
+                    ci,
                     token: '',
                     limit: 10
                 }
@@ -250,13 +250,13 @@ export function getComingList() {
 }
 
 //请求更多即将上映的电影数据
-export function getMoreComingList(ids) {
+export function getMoreComingList(ids,ci) {
     return new Promise((resolve, reject) => {
         http({
                 url: API.MORE_PLAYING_API,
                 method: 'GET',
                 data: {
-                    ci: 30,
+                    ci,
                     token: '',
                     limit: 10,
                     movieIds: ids
@@ -309,7 +309,7 @@ export function getMoreComingList(ids) {
 }
 
 //请求影院的数据
-export function getCinemaList() {
+export function getCinemaList(cityId) {
     return new Promise((resolve, reject) => {
         http({
             url: API.CITY_CINEMA_API,
@@ -317,7 +317,7 @@ export function getCinemaList() {
             data: {
                 offset:0,
                 limit:20,
-                cityId:30
+                cityId
             }
         }).then(({data,status})=>{
             if(status==200){
@@ -337,7 +337,7 @@ export function getCinemaList() {
 }
 
 //请求更多影院数据
-export function getMoreCinemaList(ids){
+export function getMoreCinemaList(ids,cityId){
     return new Promise((resolve,reject)=>{
         http({
             url: API.CITY_CINEMA_API,
@@ -345,7 +345,7 @@ export function getMoreCinemaList(ids){
             data: {
                 offset:ids,
                 limit:20,
-                cityId:30
+                cityId
             }
         }).then(({data,status})=>{
             if(status==200){
@@ -375,6 +375,31 @@ export function getDetailList(ids){
                 resolve({data:data.detailMovie})
             }else{
 
+            }
+        }).catch(()=>{
+
+        })
+    })
+}
+
+//请求日期数据
+export function getDateList(ids,cityId){
+    return new Promise((resolve,reject)=>{
+        http({
+            url:API.DATE_API,
+            method:'POST',
+            data:{
+                movieId: ids,
+                updateShowDay: true,
+                reqId:Date.now(),
+                cityId,
+                day:new Date().toLocaleDateString().replace(/[/]/g,'-')
+            }
+        }).then(({data,status})=>{
+            console.log('日期')
+            console.log(data)
+            if(status==200){
+                resolve({cinemas:data.cinemas,showDays:data.showDays.dates})
             }
         }).catch(()=>{
 
